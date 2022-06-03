@@ -4,14 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class RaceRunner {
 
-    protected static boolean isWinner;
-    protected static int trackLength = 20;
-    protected static Lock lock = new ReentrantLock();
+    private static final int trackLength = 20;
     private static final Logger LOGGER = LogManager.getLogger(RaceTrack.class);
 
     public static void main(String[] args) throws InterruptedException {
