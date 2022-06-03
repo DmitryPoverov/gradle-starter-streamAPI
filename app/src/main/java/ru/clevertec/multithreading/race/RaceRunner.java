@@ -10,6 +10,7 @@ public class RaceRunner {
     private static final int trackLength = 20;
     private static final Logger LOGGER = LogManager.getLogger(RaceTrack.class);
 
+    //Without Console inputting
     public static void main(String[] args) throws InterruptedException {
 
         CarRunnable carThread1 = new CarRunnable("Car1");
