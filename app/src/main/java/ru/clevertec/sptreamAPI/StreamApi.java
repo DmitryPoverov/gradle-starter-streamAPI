@@ -1,11 +1,11 @@
-package ru.clevertec;
+package ru.clevertec.sptreamAPI;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class App {
+public class StreamApi {
 
     public static void main(String[] args) {
 
