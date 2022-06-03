@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+//With console inputting and logging
 public class RaceTrack {
 
     protected static int quantityOfThreads;
