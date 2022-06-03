@@ -48,7 +48,7 @@ public class RaceTrack {
 
         isActive = false;
 
-/* Think over lately
+/* Think over lately.
         ExecutorService threadPool = Executors.newFixedThreadPool(quantityOfThreads);
         List<CarRunnable> runnableList = new ArrayList<>();
 
