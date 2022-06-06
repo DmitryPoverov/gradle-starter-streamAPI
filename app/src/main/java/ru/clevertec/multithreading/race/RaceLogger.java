@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 public class RaceLogger implements Runnable {
 
     private static final Logger LOGGER = LogManager.getLogger(RaceTrack.class);
-    private static List<CarRunnable> runnableList;
+    private static List<CarRun> runnableList;
 
-    public RaceLogger(List<CarRunnable> list) {
+    public RaceLogger(List<CarRun> list) {
         runnableList = list;
     }
 
@@ -19,7 +19,7 @@ public class RaceLogger implements Runnable {
     public void run() {
         while (RaceTrack.isActive) {
             StringBuilder logString = new StringBuilder();
-            for (CarRunnable car : runnableList) {
+            for (CarRun car : runnableList) {
                 logString.append(car.getName()).append(" : ").append(RaceTrack.trackLength - car.getPath()).append("km left, " );
             }
             LOGGER.info(logString);

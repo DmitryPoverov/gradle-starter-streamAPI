@@ -3,6 +3,7 @@ package ru.clevertec.multithreading.race;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class RaceRunner {
@@ -13,11 +14,13 @@ public class RaceRunner {
     //Without Console inputting
     public static void main(String[] args) throws InterruptedException {
 
-        CarRunnable carThread1 = new CarRunnable("Car1");
-        CarRunnable carThread2 = new CarRunnable("Car2");
-        CarRunnable carThread3 = new CarRunnable("Car3");
-        CarRunnable carThread4 = new CarRunnable("Car4");
-        CarRunnable carThread5 = new CarRunnable("Car5");
+        CountDownLatch latch = new CountDownLatch(5);
+
+        CarRun carThread1 = new CarRun("Car1", latch);
+        CarRun carThread2 = new CarRun("Car2", latch);
+        CarRun carThread3 = new CarRun("Car3", latch);
+        CarRun carThread4 = new CarRun("Car4", latch);
+        CarRun carThread5 = new CarRun("Car5", latch);
 
         Thread car1 = new Thread(carThread1);
         Thread car2 = new Thread(carThread2);

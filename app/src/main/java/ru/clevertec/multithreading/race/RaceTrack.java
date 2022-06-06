@@ -3,6 +3,7 @@ package ru.clevertec.multithreading.race;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,61 +15,44 @@ public class RaceTrack {
     protected static boolean isWinner;
     protected static boolean isActive = true;
     protected static Lock lock = new ReentrantLock();
+    protected static CountDownLatch latch;
 
     public static void main(String[] args) throws InterruptedException {
 
         Scanner sc = new Scanner(System.in);
+        List<CarRun> carRuns = new ArrayList<>();
+        List<Thread> carThreads = new ArrayList<>();
+
         System.out.println("Enter quantity of cars (from 2 to 10)");
         quantityOfThreads = sc.nextInt();
-
         System.out.println("Enter length of the track (from 1 to 100)");
         trackLength = sc.nextInt();
 
-        List<CarRunnable> runnableList = new ArrayList<>();
-        List<Thread> carThreads = new ArrayList<>();
+        latch = new CountDownLatch(quantityOfThreads);
 
+// Here I named my runnable(s)
         for (int i=0; i<quantityOfThreads; i++) {
-            runnableList.add(new CarRunnable("car" + (i+1)));
+            carRuns.add(new CarRun("car" + (i+1), latch));
         }
 
-        for (CarRunnable car : runnableList) {
-            carThreads.add(new Thread(car));
+        for (CarRun carRun : carRuns) {
+            carThreads.add(new Thread(carRun));
         }
 
-        System.out.println("Everyone! Go to the start!");
-        new Thread(new RaceLogger(runnableList)).start();
+        System.out.println("Ready! Steady! Go!" + "; counter" + latch.getCount());
+        Thread logger = new Thread(new RaceLogger(carRuns));
+        logger.setName("Logger");
+        logger.start();
 
-        for (Thread thread : carThreads) {
-            thread.start();
-        }
-
-        for (Thread thread : carThreads) {
-            thread.join();
-        }
+        carThreads.forEach((Thread::start));
+        carThreads.forEach(thread -> {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         isActive = false;
-
-/* Think over lately
-        ExecutorService threadPool = Executors.newFixedThreadPool(quantityOfThreads);
-        List<CarRunnable> runnableList = new ArrayList<>();
-
-        for (int i=0; i<quantityOfThreads; i++) {
-            CarRunnable car = new CarRunnable("car" + (i+1));
-            runnableList.add(car);
-        }
-
-        new Thread(new RaceLogger(runnableList)).start();
-
-        System.out.println("Everyone! Go to the start!");
-        TimeUnit.MILLISECONDS.sleep(200);
-
-        for (CarRunnable car : runnableList) {
-            threadPool.submit(car);
-        }
-
-        threadPool.shutdown();
-
-        isActive = threadPool.isTerminated();
-*/
     }
 }
