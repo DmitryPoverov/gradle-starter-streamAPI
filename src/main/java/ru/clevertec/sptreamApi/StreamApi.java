@@ -1,4 +1,4 @@
-package ru.clevertec.sptreamAPI;
+package ru.clevertec.sptreamApi;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;

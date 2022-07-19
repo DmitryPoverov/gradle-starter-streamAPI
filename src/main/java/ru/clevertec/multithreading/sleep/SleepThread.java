@@ -1,6 +1,7 @@
 package ru.clevertec.multithreading.sleep;
 
 public class SleepThread extends Thread {
+
     @Override
     public void run() {
         try {
